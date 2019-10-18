@@ -30,8 +30,8 @@ fi
 rm -rf /var/git/lancache-cache-domains
 /usr/bin/git clone https://github.com/uklans/cache-domains.git /var/git/lancache-cache-domains
 
-# Set the upstreams we want to create unbound config files from
-declare -a UPSTREAMS=("blizzard" "origin" "riot" "steam" "windowsupdates")
+# Get list of all upstreams that are available from JSON
+declare -a UPSTREAMS=(`grep -Po '"domain_files":.*?[^\\\]"]' /var/git/lancache-cache-domains/cache_domains.json | sed -e 's/^"domain_files": \["*//' -e 's/.txt"]//'`)
 
 # Create the config file
 mkdir -p /tmp/lancache-dns-pfsense
